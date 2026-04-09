@@ -14,7 +14,7 @@ class GlobalOrdersEventHandler():
         # EVICT OLD EVENTS
         now_t = time.time()
         i = 0
-        while now_t - event_t > self.window:
+        while now_t - self.orders[i] > self.window:
             i += 1
         self.orders = self.orders[i:]
 

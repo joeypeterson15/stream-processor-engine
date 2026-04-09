@@ -2,11 +2,11 @@ from typing import Any
 import collections
 import time
 
-class OrderEvent():
+class OrderEventHandler():
     def init(self, window, sink_desitination):
         self.window = window
         self.sink_desitination = sink_desitination
-        self.payload_fields = ['prod_id', 'timestamp']
+        # self.payload_fields = ['prod_id', 'timestamp']
         self.orders = {}
 
     def process_event(self, event):

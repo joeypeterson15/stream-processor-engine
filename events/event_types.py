@@ -1,14 +1,15 @@
-# E COMMERCE DATA MODEL
+from events.handlers import ClickHandler
+from events.handlers.order import OrderHandler
 
-event_types = {
-    1: "OrderEvent",
-    2: "CustomerEvent",
-    3: "ProductEvent",
-    4: "ClickEvent",
-    5: "ViewEvent",
-    6: "AddToCartEvent",
-    7: "RemoveFromCartEvent",
-    8: "CheckoutEvent",
-    9: "PurchaseEvent",
-    10: "RefundEvent",
+eventHandlers = {
+    "click": ClickHandler,
+    "order": OrderHandler,
 }
+
+event_id_types = {
+    1: { 'order': ["OrderEvent", "GlobalOrdersEvent"]},
+    2: { 'click': ["ClickEvent", "GlobalClicks"]},
+}
+
+def get_event_types(event_id):
+    return event_id_types[event_id]

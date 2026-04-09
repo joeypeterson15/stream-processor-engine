@@ -4,7 +4,7 @@ from events.handlers.orders.GlobalOrdersEventHandler import GlobalOrdersEventHan
 from events.handlers.clicks.ClickEventHandler import ClickEventHandler
 from events.handlers.clicks.GlobalClicksEventHandler import GlobalClicksEventHandler
 
-event_type_to_Handlers = {
+event_type_to_handlers = {
     "clicks": [ClickEventHandler, GlobalClicksEventHandler],
     "orders": [OrderEventHandler, GlobalOrdersEventHandler],
 }

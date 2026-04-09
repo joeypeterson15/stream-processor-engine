@@ -1,4 +1,4 @@
-from events.event_types import eventHandlers
+from events.event_types import event_type_to_handlers
 from events.event_types import get_event_type
 import collections
 
@@ -8,15 +8,12 @@ class BaseHandler():
 
     def _generate_event_handlers():
         event_handlers = {}
-        for type, handlers in eventHandlers.items():
+        for type, handlers in event_type_to_handlers.items():
             event_handlers[type] = []
             for handler in handlers:
                 event_handlers[type].append(handler())
 
         return event_handlers
-        
-    # def _get_event_types(self,event_id):
-    #     return self.eventid_types[event_id]
 
     def process(self, event_id, event):
         event_type = get_event_type(event_id)

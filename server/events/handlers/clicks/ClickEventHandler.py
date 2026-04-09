@@ -1,6 +1,5 @@
 import time
 
-
 class ClickEventHandler:
     def init(self, window, sink_destination):
         self.window = window
@@ -15,9 +14,11 @@ class ClickEventHandler:
 
         if user_id not in self.clicks:
             self.clicks[user_id] = {}
-        self.clicks[user_id][(prod_id, session_id)] = 1 + self.clicks[user_id].get((prod_id, session_id), 0)
+        if session_id not in self.clicks[user_id]:
+            self.clicks[user_id][session_id] = {}
+        self.clicks[user_id][session_id][prod_id] = 1 + self.clicks[user_id][session_id].get(prod_id, 0)
 
         # EVICT OLDER SESSIONS PER USER
-        for p, s in self.clicks[user_id]:
-            if s != session_id:
-                self.clicks[user_id].remove((p, s))
+        for session in self.clicks[user_id]:
+            if session != session_id:
+                self.clicks[user_id].remove(session)

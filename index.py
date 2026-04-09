@@ -1,11 +1,14 @@
-class StreamProcessorBase():
-    def __init__(self, stream):
-        self.stream = stream
+# class StreamProcessorBase():
+#     def __init__(self, stream):
+#         self.stream = stream
 
-    def process(self):
-        pass
+#     def process(self):
+#         pass
 
-class StreamProcessor(StreamProcessorBase):
-    def process(self):
+class Engine():
+    def __init__(self):
+        
+
+    def process(self,):
         pass
 

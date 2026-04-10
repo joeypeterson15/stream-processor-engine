@@ -1,10 +1,11 @@
+from typing import Any, Dict
 import time
 
 class ClickEventHandler:
     def init(self, window, sink_destination):
-        self.window = window
+        self.window:int = window
         self.sink_desitination = sink_destination
-        self.clicks = {}
+        self.clicks= {}
 
     def process_event(self, event, store):
         prod_id = event["prod_id"]

@@ -6,7 +6,7 @@ class GlobalClicksEventHandler:
         self.sink_desitination = sink_desitination
         self.clicks = []
 
-    def process_event(self, event):
+    def process_event(self, event, store):
         event_t = event["timestamp"]
         self.clicks.append(event_t)
 
@@ -18,3 +18,5 @@ class GlobalClicksEventHandler:
         while now_t - self.clicks[i] > self.window:
             i += 1
         self.clicks = self.clicks[i:]
+
+        store.write("GlobalClicksEvent", self.clicks)

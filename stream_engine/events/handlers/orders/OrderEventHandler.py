@@ -6,10 +6,9 @@ class OrderEventHandler():
     def init(self, window, sink_desitination):
         self.window = window
         self.sink_desitination = sink_desitination
-        # self.payload_fields = ['prod_id', 'timestamp']
         self.orders = {}
 
-    def process_event(self, event):
+    def process_event(self, event, store):
         event_t = event['timestamp']
         prod_id = event['prod_id']
         if prod_id not in self.orders:
@@ -22,6 +21,8 @@ class OrderEventHandler():
         self.orders[prod_id] = [
             t for t in self.orders[prod_id] if now_t - t <= self.window
         ]
+
+        store.write("OrderEvent", store)
           
         
 

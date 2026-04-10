@@ -3,8 +3,9 @@ from events.event_types import get_event_type
 import collections
 
 class BaseHandler():
-    def __init__(self):
+    def __init__(self, store):
         self.event_handlers = self._generate_event_handlers()
+        self.store = store
 
     def _generate_event_handlers():
         event_handlers = {}
@@ -18,5 +19,6 @@ class BaseHandler():
     def process(self, event_id, event):
         event_type = get_event_type(event_id)
         for handler in self.event_handlers[event_type]:
-            handler.process_event(event)
+            handler.process_event(event, self.store)
+            # ADD STORE PIPELINE HERE
             

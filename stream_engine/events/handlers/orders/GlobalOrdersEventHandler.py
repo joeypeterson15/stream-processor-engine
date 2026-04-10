@@ -6,7 +6,7 @@ class GlobalOrdersEventHandler():
         self.sink_desitination = sink_desitination
         self.orders = []
 
-    def process_event(self, event):
+    def process_event(self, event, store):
         event_t = event['timestamp']
         self.orders.append(event_t)
 
@@ -17,6 +17,8 @@ class GlobalOrdersEventHandler():
         while now_t - self.orders[i] > self.window:
             i += 1
         self.orders = self.orders[i:]
+
+        store.write("GlobalOrdersEvent", self.orders)
 
           
         

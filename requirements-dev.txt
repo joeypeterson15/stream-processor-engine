@@ -1,0 +1,3 @@
+-r stream_engine/requirements.txt
+pytest
+httpx

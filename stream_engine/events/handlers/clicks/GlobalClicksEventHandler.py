@@ -1,12 +1,12 @@
 import time
 
 class GlobalClicksEventHandler:
-    def init(self, window, sink_desitination):
+    def __init__(self, window: float = 60.0, sink_destination: str | None = None):
         self.window = window
-        self.sink_desitination = sink_desitination
+        self.sink_destination = sink_destination
         self.clicks = []
 
-    def process_event(self, event, store):
+    def process_event(self, event_id: int, event, store, event_type: str):
         event_t = event["timestamp"]
         self.clicks.append(event_t)
 
@@ -15,8 +15,9 @@ class GlobalClicksEventHandler:
 
         now_t = time.time()
         i = 0
-        while now_t - self.clicks[i] > self.window:
+        while i < len(self.clicks) and now_t - self.clicks[i] > self.window:
             i += 1
-        self.clicks = self.clicks[i:]
+        if i:
+            self.clicks = self.clicks[i:]
 
-        store.write("GlobalClicksEvent", self.clicks)
+        store.write(f"{event_type}:global", self.clicks)

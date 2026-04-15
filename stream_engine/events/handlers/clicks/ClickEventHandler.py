@@ -1,13 +1,12 @@
-from typing import Any, Dict
-import time
+from typing import Any, Optional
 
 class ClickEventHandler:
-    def init(self, window, sink_destination):
-        self.window:int = window
-        self.sink_desitination = sink_destination
-        self.clicks= {}
+    def __init__(self, window: float = 60.0, sink_destination: Optional[str] = None):
+        self.window = window
+        self.sink_destination = sink_destination
+        self.clicks = {}
 
-    def process_event(self, event, store):
+    def process_event(self, event_id: int, event: Any, store, event_type: str):
         prod_id = event["prod_id"]
         session_id = event["session_id"]
         user_id = event["user_id"]
@@ -21,10 +20,9 @@ class ClickEventHandler:
         self.clicks[user_id][session_id][prod_id] = 1 + self.clicks[user_id][session_id].get(prod_id, 0)
 
         # EVICT OLDER SESSIONS PER USER
-        for session in self.clicks[user_id]:
+        for session in list(self.clicks[user_id].keys()):
             if session != session_id:
-                self.clicks[user_id].remove(session)
+                del self.clicks[user_id][session]
 
-        
-        store.write("ClickEvent", self.clicks)
+        store.write(f"{event_type}:by_user", self.clicks)
     

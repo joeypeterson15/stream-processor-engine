@@ -1,0 +1,83 @@
+services:
+  engine:
+    image: stream_processor_engine-engine:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.engine
+    container_name: engine
+    ports:
+      - "8000:8000"
+    environment:
+      - SUPERVISOR_ENABLE=1
+      - SUPERVISOR_DOCKER_NETWORK=spe
+      - STORE_BASE_URL=http://engine:8000
+      - HANDLER_IMAGE=stream_processor_engine-handler:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - spe
+
+  handler-clicks:
+    image: stream_processor_engine-handler:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.handler
+    container_name: handler-clicks
+    environment:
+      - HANDLER_IMPORT=stream_engine.events.handlers.clicks.ClickEventHandler:ClickEventHandler
+      - STORE_BASE_URL=http://engine:8000
+    depends_on:
+      - engine
+    restart: unless-stopped
+    networks:
+      - spe
+
+  handler-global-clicks:
+    image: stream_processor_engine-handler:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.handler
+    container_name: handler-global-clicks
+    environment:
+      - HANDLER_IMPORT=stream_engine.events.handlers.clicks.GlobalClicksEventHandler:GlobalClicksEventHandler
+      - STORE_BASE_URL=http://engine:8000
+    depends_on:
+      - engine
+    restart: unless-stopped
+    networks:
+      - spe
+
+  handler-orders:
+    image: stream_processor_engine-handler:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.handler
+    container_name: handler-orders
+    environment:
+      - HANDLER_IMPORT=stream_engine.events.handlers.orders.OrderEventHandler:OrderEventHandler
+      - STORE_BASE_URL=http://engine:8000
+    depends_on:
+      - engine
+    restart: unless-stopped
+    networks:
+      - spe
+
+  handler-global-orders:
+    image: stream_processor_engine-handler:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.handler
+    container_name: handler-global-orders
+    environment:
+      - HANDLER_IMPORT=stream_engine.events.handlers.orders.GlobalOrdersEventHandler:GlobalOrdersEventHandler
+      - STORE_BASE_URL=http://engine:8000
+    depends_on:
+      - engine
+    restart: unless-stopped
+    networks:
+      - spe
+
+networks:
+  spe:
+    name: spe
+

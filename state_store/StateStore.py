@@ -1,17 +1,3 @@
-# class StateStore():
-#     def __init__(self):
-#         self.store = {}
-
-#     def write(self, event_type, data):
-#         self.store[event_type] = data
-
-#     def read_all(self):
-#         return self.store
-
-#     def read(self, event_type):
-#         return self[event_type]
-
-
 import asyncio
 from typing import Any
 
@@ -25,6 +11,7 @@ class StateStore():
 
     def add_connection(self, websocket: WebSocket) -> None:
         self.connections.add(websocket)
+        print('websocket', websocket)
 
     def remove_connection(self, websocket: WebSocket) -> None:
         self.connections.discard(websocket)

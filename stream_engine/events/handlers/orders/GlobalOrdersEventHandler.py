@@ -21,5 +21,4 @@ class GlobalOrdersEventHandler:
 
         store.write(f"{event_type}:global", self.orders)
 
-          
         

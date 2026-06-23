@@ -61,6 +61,7 @@ def main() -> None:
     parser.add_argument("--clicks-weight", type=int, default=7, help="Relative probability of click events (default: 7)")
     parser.add_argument("--orders-weight", type=int, default=3, help="Relative probability of order events (default: 3)")
     args = parser.parse_args()
+    # print(args)
 
     asyncio.run(run(args.base_url, args.interval_ms, args.clicks_weight, args.orders_weight))
 
